@@ -2,13 +2,18 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './app/**/*.{js,ts,jsx,tsx,mdx,css}',     // App directory
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',   // Pages directory
-    './components/**/*.{js,ts,jsx,tsx,mdx}', // Components
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx,css}", // App directory
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}", // Pages directory
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}", // Components
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        roboto: ["var(--font-roboto)", "sans-serif"],
+        inter: ["var(--font-inter)", "sans-serif"],
+      },
+    },
   },
-  darkMode: 'class',
+  darkMode: "class",
   plugins: [],
-}
+};

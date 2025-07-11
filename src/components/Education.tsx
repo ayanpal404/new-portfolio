@@ -21,7 +21,7 @@ function Education() {
     {
       image: "https://upload.wikimedia.org/wikipedia/en/0/05/Adamas_University_Logo.png",
       institution: "Adamas University",
-      degree: "Bachelor of Computer Applications(BCA)",
+      degree: "Bachelor of Computer Applications (BCA)",
       grade: "8.91 CGPA",
       duration: "Aug 2022 - Jun 2025",
       description:
@@ -65,7 +65,7 @@ function Education() {
               onClick={() => toggleDescription(index)}
             >
               {/* Logo or Initial */}
-              <div className="min-w-[50px] min-h-[50px] flex items-center bg-blue-50 justify-center border-2 border-blue-500 dark:border-blue-700 rounded-full overflow-hidden p-">
+              <div className="min-w-[45px] min-h-[45px] flex items-center bg-blue-50 justify-center border-2 border-[#4ED7F1]/60 dark:border-[#03C988] rounded-full overflow-hidden p-">
                 {showImage && edu.image ? (
                   <Image
                     src={edu.image}
@@ -75,7 +75,7 @@ function Education() {
                     className="rounded-full"
                   />
                 ) : (
-                  <span className="text-xl font-semibold text-blue-600 dark:text-blue-300">
+                  <span className="text-xl font-semibold text-[#4ED7F1] dark:text-[#03C988]">
                     {edu.institution[0]}
                   </span>
                 )}
@@ -85,16 +85,16 @@ function Education() {
               <div className="w-full">
                 <div className="flex justify-between items-center">
                   <div className="mr-4">
-                    <h2 className="text-base sm:text-lg font-semibold flex items-center gap-1 group">
+                    <h2 className="text-sm sm:text-base font-semibold flex items-center gap-1 group">
                       {edu.degree}
                       <span
-                        className={"transform transition-all duration-300 translate-x-[-10px] opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
-                        }
+                        className={clsx("transform transition-all duration-300 translate-x-[-10px] opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
+                        , isExpanded ? "rotate-90" : "")}
                       >
                         <FaAngleRight />
                       </span>
                     </h2>
-                    <p className="text-gray-600 dark:text-gray-300">
+                    <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
                       {edu.institution}
                     </p>
                   </div>
@@ -110,7 +110,7 @@ function Education() {
                     isExpanded ? "max-h-40 mt-2" : "max-h-0"
                   )}
                 >
-                  <p className="text-gray-700 dark:text-gray-300 text-justify font-semibold">
+                  <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 text-justify font-semibold">
                     {edu.grade ? `Grade: ${edu.grade}` : "Grade: Not specified"}
                   </p>
                   <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">

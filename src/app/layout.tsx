@@ -1,6 +1,15 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Providers } from '@/components/Providers'
+import { Roboto } from "next/font/google";
+import ThemeToggle from '@/components/ThemeToggle';
+import BottomAnimation from '@/components/buttomAnimation';
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"], // choose as needed
+  variable: "--font-roboto", // optional: CSS variable
+});
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,10 +24,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={inter.className} suppressHydrationWarning>
+    <html lang="en" className={`${inter.className} ${roboto.className}`} suppressHydrationWarning>
       <body>
         <Providers>
           {children}
+          <ThemeToggle />
+          <BottomAnimation />
         </Providers>
       </body>
     </html>

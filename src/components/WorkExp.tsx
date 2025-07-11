@@ -18,7 +18,8 @@ function WorkExp() {
 
   const workExperience = [
     {
-      image: "https://media.licdn.com/dms/image/v2/D560BAQFRIgZiE3JuBw/company-logo_200_200/company-logo_200_200/0/1721229006140/the_future_network_ai_logo?e=2147483647&v=beta&t=wViAER-mt-bu_azeb3hE6YAXQvGRlsCACNejMVS_JgA",
+      image:
+        "https://media.licdn.com/dms/image/v2/D560BAQFRIgZiE3JuBw/company-logo_200_200/company-logo_200_200/0/1721229006140/the_future_network_ai_logo?e=2147483647&v=beta&t=wViAER-mt-bu_azeb3hE6YAXQvGRlsCACNejMVS_JgA",
       company: "AZMTH",
       position: "Frontend Developer",
       type: "full-time",
@@ -34,29 +35,32 @@ function WorkExp() {
 
   return (
     <div className="max-w-2xl px-4 sm:px-6 py-4 flex flex-col items-start justify-start">
-      <h1 className="font-bold mb-4 px-3 sm:px-0 text-xl sm:text-2xl">Work Experience</h1>
-      <div className="space-y-6 w-full">
+      <h1 className="font-bold mb-2 sm:mb-4 px-3 sm:px-0 text-xl sm:text-2xl">
+        Work Experience
+      </h1>
+      <div className="space-y-6 w-full px-2">
         {workExperience.map((job, index) => {
           const isExpanded = expandedIndex === index;
 
           return (
             <div
               key={index}
-              className="flex gap-4 items-start cursor-pointer group"
+              className="flex flex-col items-start cursor-pointer group"
               onClick={() => toggleDescription(index)}
             >
+              <div className="flex gap-4 items-start cursor-pointer group w-full">
               {/* Logo or Initial */}
-              <div className="min-w-[50px] min-h-[50px] flex items-center bg-blue-100 justify-center border-2 border-blue-500 dark:border-blue-700 rounded-full overflow-hidden">
+              <div className="min-w-[45px] min-h-[45px] flex items-center bg-blue-100 justify-center border-2 border-[#4ED7F1]/60 dark:border-[#03C988] rounded-full overflow-hidden">
                 {showImage && job.image ? (
                   <Image
                     src={job.image}
-                    alt={`${job.company} logo`}
+                    alt={`${job.company[0]} logo`}
                     width={50}
                     height={50}
                     className="rounded-full"
                   />
                 ) : (
-                  <span className="text-xl font-semibold text-blue-600 dark:text-blue-300">
+                  <span className="text-xl font-semibold text-[#4ED7F1] dark:text-[#03C988]">
                     {job.company[0]}
                   </span>
                 )}
@@ -66,11 +70,13 @@ function WorkExp() {
               <div className="w-full">
                 <div className="flex justify-between items-center">
                   <div className="mr-4">
-                    <h2 className="text-base sm:text-lg font-semibold flex items-center gap-1 group">
+                    <h2 className="text-sm sm:text-base font-semibold flex items-center gap-1 group">
                       {job.position}
                       <span
-                        className={"transform transition-all duration-300 translate-x-[-10px] opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
-                        }
+                        className={clsx(
+                          "transform transition-all duration-300 translate-x-[-10px] opacity-0 group-hover:translate-x-0 group-hover:opacity-100",
+                          isExpanded ? "rotate-90" : ""
+                        )}
                       >
                         <FaAngleRight />
                       </span>
@@ -83,18 +89,18 @@ function WorkExp() {
                     {job.duration}
                   </p>
                 </div>
-
-                {/* Description collapsible section */}
-                <div
-                  className={clsx(
-                    "overflow-hidden transition-all duration-500",
-                    isExpanded ? "max-h-40 mt-2" : "max-h-0"
-                  )}
-                >
-                  <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 sm:text-justify">
-                    {job.description}
-                  </p>
-                </div>
+              </div>
+            </div>
+              {/* Description collapsible section */}
+              <div
+                className={clsx(
+                  "overflow-hidden transition-all duration-500",
+                  isExpanded ? "max-h-40 mt-2" : "max-h-0"
+                )}
+              >
+                <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                  {job.description}
+                </p>
               </div>
             </div>
           );
