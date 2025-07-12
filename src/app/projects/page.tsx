@@ -1,41 +1,42 @@
 "use client";
 
 import React from "react";
-import { projects } from "@/services/getprojects";
 import { FiExternalLink } from "react-icons/fi";
 import { LuGithub } from "react-icons/lu";
 import { useRouter } from "next/navigation";
-
-
-type Project = {
-  id?: string;
-  title: string;
-  description: string;
-  image?: string;
-  link?: string;
-  github?: string;
-  duration: string; // e.g., "July 2024 - Sept 2024"
-  techStack: string[];
-  showOnProfile: boolean;
-};
-
-// Sort the projects by end date
-const sortedProjects = [...projects].sort((a, b) => {
-  const endA = new Date(a.duration.split(" - ")[1]).getTime();
-  const endB = new Date(b.duration.split(" - ")[1]).getTime();
-
-  const isEndANaN = isNaN(endA);
-  const isEndBNaN = isNaN(endB);
-
-  // Push NaN (e.g., "Present") to the top
-  if (isEndANaN && !isEndBNaN) return -1;
-  if (!isEndANaN && isEndBNaN) return 1;
-
-  return endB - endA;
-});
+import { Project } from "@/utils/interface";
+import { useData } from "@/context/DataContext";
+import LoadingComponent from "@/components/Loading";
 
 const AllProjectsPage: React.FC = () => {
   const router = useRouter();
+  const { allProjects, loading } = useData();
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen max-w-2xl mx-auto">
+        <LoadingComponent type="dots" size="lg" />
+      </div>
+    );
+  }
+
+  if (!allProjects || allProjects.length === 0) {
+    return (
+      <div className="max-w-2xl mx-auto px-6 py-8">
+        <p className="text-center text-gray-500 dark:text-gray-400">
+          No projects found.
+        </p>
+      </div>
+    );
+  }
+
+  // sort projects base on duration last 4 characters
+  const sortedProjects = [...allProjects].sort((a, b) => {
+    const aDuration = a.duration.slice(-4);
+    const bDuration = b.duration.slice(-4);
+    return aDuration.localeCompare(bDuration);
+  });
+
   return (
     <div className="max-w-2xl mx-auto px-6 py-8">
       <button
@@ -57,57 +58,54 @@ const AllProjectsPage: React.FC = () => {
             <tr className="bg-gray-100 dark:bg-gray-800 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">
               <th className="px-4 py-2">Year</th>
               <th className="px-4 py-2">Title</th>
-              <th className="px-4 py-2 max-w-20 sm:max-w-10">GitHub</th>
+              <th className="px-4 py-2">GitHub</th>
               <th className="px-4 py-2">Live</th>
             </tr>
           </thead>
           <tbody>
-            {sortedProjects.map((project: Project, index: number) =>
-              project.showOnProfile ? (
-                <tr
-                  key={index}
-                  onClick={() => {
-                    router.push(`/projects/${project.id}`);
-                  }}
-                  className="border-t border-gray-300 dark:border-gray-700 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                >
-                  <td className="px-4 py-2">
-                    {(() => {
-                      const end = project.duration.split(" - ")[1];
-                      const year = new Date(end).getFullYear();
-                      return isNaN(year) ? new Date().getFullYear() : year;
-                    })()}
-                  </td>
-                  <td className="px-4 py-2">{project.title}</td>
-                  <td className="px-4 py-2 flex items-center justify-center">
-                    {project.github && (
-                      <a
-                        href={project.github}
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="z-20 inline-flex items-center gap-1 text-gray-900 dark:text-gray-100 hover:scale-125 transition-transform duration-200 hover:underline rounded-full p-1 hover:bg-gray-900 hover:text-gray-100 dark:hover:bg-gray-700"
-                      >
-                        <LuGithub size={16} />
-                        <span className="sr-only">GitHub</span>
-                      </a>
-                    )}
-                  </td>
-                  <td className="px-4 py-2">
-                    {project.link && (
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 hover:underline"
-                      >
-                        <FiExternalLink size={16} />
-                        <span className="sr-only">Live</span>
-                      </a>
-                    )}
-                  </td>
-                </tr>
-              ) : null
-            )}
+            {sortedProjects.map((project: Project, index: number) => (
+              <tr
+                key={index}
+                onClick={() => router.push(`/projects/${project.id}`)}
+                className="border-t border-gray-300 dark:border-gray-700 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              >
+                <td className="px-4 py-2">
+                  {(() => {
+                    const end = project.duration.split(" - ")[1];
+                    const year = new Date(end).getFullYear();
+                    return isNaN(year) ? project.duration.slice(-4) : year;
+                  })()}
+                </td>
+                <td className="px-4 py-2">{project.title}</td>
+                <td className="px-4 py-2 flex items-center justify-center">
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="z-20 inline-flex items-center gap-1 text-gray-900 dark:text-gray-100 hover:scale-125 transition-transform duration-200 hover:underline rounded-full p-1 hover:bg-gray-900 hover:text-gray-100 dark:hover:bg-gray-700"
+                    >
+                      <LuGithub size={16} />
+                      <span className="sr-only">GitHub</span>
+                    </a>
+                  )}
+                </td>
+                <td className="px-4 py-2">
+                  {project.link && (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 hover:underline"
+                    >
+                      <FiExternalLink size={16} />
+                      <span className="sr-only">Live</span>
+                    </a>
+                  )}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

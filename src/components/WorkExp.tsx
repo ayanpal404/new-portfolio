@@ -4,9 +4,11 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaAngleRight } from "react-icons/fa6";
 import clsx from "clsx";
+import { useData } from "@/context/DataContext";
 
 function WorkExp() {
   const [showImage, setShowImage] = useState(false);
+  const { workExperience } = useData();
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   useEffect(() => {
@@ -15,19 +17,6 @@ function WorkExp() {
     }, 2000);
     return () => clearTimeout(timeout);
   }, []);
-
-  const workExperience = [
-    {
-      image:
-        "https://media.licdn.com/dms/image/v2/D560BAQFRIgZiE3JuBw/company-logo_200_200/company-logo_200_200/0/1721229006140/the_future_network_ai_logo?e=2147483647&v=beta&t=wViAER-mt-bu_azeb3hE6YAXQvGRlsCACNejMVS_JgA",
-      company: "AZMTH",
-      position: "Frontend Developer",
-      type: "full-time",
-      duration: "Jun 23 - Nov 24",
-      description:
-        "Developed and maintained web applications using React, Vite, and Node.js, improving user experience and performance.",
-    },
-  ];
 
   const toggleDescription = (index: number) => {
     setExpandedIndex((prev) => (prev === index ? null : index));
@@ -39,7 +28,7 @@ function WorkExp() {
         Work Experience
       </h1>
       <div className="space-y-6 w-full px-2">
-        {workExperience.map((job, index) => {
+        {(workExperience ?? []).map((job, index) => {
           const isExpanded = expandedIndex === index;
 
           return (
@@ -51,16 +40,16 @@ function WorkExp() {
               <div className="flex gap-4 items-start cursor-pointer group w-full">
               {/* Logo or Initial */}
               <div className="min-w-[45px] min-h-[45px] flex items-center bg-blue-100 justify-center border-2 border-[#4ED7F1]/60 dark:border-[#03C988] rounded-full overflow-hidden">
-                {showImage && job.image ? (
+                {showImage && job?.logo ? (
                   <Image
-                    src={job.image}
+                    src={job.logo}
                     alt={`${job.company[0]} logo`}
-                    width={50}
-                    height={50}
+                    width={45}
+                    height={45}
                     className="rounded-full"
                   />
                 ) : (
-                  <span className="text-xl font-semibold text-[#4ED7F1] dark:text-[#03C988]">
+                  <span className="text-2xl font-semibold text-[#4ED7F1] dark:text-[#03C988]">
                     {job.company[0]}
                   </span>
                 )}
@@ -71,7 +60,7 @@ function WorkExp() {
                 <div className="flex justify-between items-center">
                   <div className="mr-4">
                     <h2 className="text-sm sm:text-base font-semibold flex items-center gap-1 group">
-                      {job.position}
+                      {job.role}
                       <span
                         className={clsx(
                           "transform transition-all duration-300 translate-x-[-10px] opacity-0 group-hover:translate-x-0 group-hover:opacity-100",

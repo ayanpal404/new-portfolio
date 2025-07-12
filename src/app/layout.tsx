@@ -4,6 +4,7 @@ import { Providers } from '@/components/Providers'
 import { Roboto } from "next/font/google";
 import ThemeToggle from '@/components/ThemeToggle';
 import BottomAnimation from '@/components/buttomAnimation';
+import { DataProvider } from '@/context/DataContext';
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -27,7 +28,9 @@ export default function RootLayout({
     <html lang="en" className={`${inter.className} ${roboto.className}`} suppressHydrationWarning>
       <body>
         <Providers>
-          {children}
+          <DataProvider>
+            {children}
+          </DataProvider>
           <ThemeToggle />
           <BottomAnimation />
         </Providers>

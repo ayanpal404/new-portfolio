@@ -1,57 +1,48 @@
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "@/db/firebase";
+import { Project } from "@/utils/interface";
 
-  export const projects = [
-    {
-      id: "1",
-      title: "NearShield App",
-      description: "A React Native app using Mapbox and Firebase for locating emergency services, real-time alerts, and community-reported incidents with photos.",
-      image: "https://images.unsplash.com/photo-1586449480537-3a22cf98b04c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    //   link: "https://myportfolio.com",
-      github: "https://github.com/AyanPaL7876/NearShield",
-      duration:"Feb 2025 - May 2025",
-      techStack: ["Next.js", "TypeScript", "Tailwind CSS"],
-      showOnProfile: true,
-      features: ["Responsive design", "Dark/light mode", "Animated transitions"],
-      
-    },
-    {
-      id: "2",
-      title: "Shampa Selai",
-      description: "A modern Next.js app for a tailor shop with fabric listings, per-meter pricing, user/admin auth, booking, and management features.",
-    //   image: "https://media.licdn.com/dms/image/v2/D560BAQFRIgZiE3JuBw/company-logo_200_200/company-logo_200_200/0/1721229006140/the_future_network_ai_logo?e=2147483647&v=beta&t=wViAER-mt-bu_azeb3hE6YAXQvGRlsCACNejMVS_JgA",
-    //   link: "https://myportfolio.com",
-      github: "https://github.com/AyanPaL7876/shampa-selai",
-      duration:"July 2025 - Present",
-      techStack: ["Next.js", "TypeScript", "Tailwind CSS"],
-      showOnProfile: true,
-      features: ["Responsive design", "Dark/light mode", "Animated transitions"],
-    },
-    {
-      id: "3",
-      title: "Simple weather website",
-      description: "A simple weather website that shows current conditions, including temperature, weather type, wind, humidity, pressure, and sunrise/sunset times based on the entered city.",
-      longDescription: "A simple weather website that shows current conditions, including temperature, weather type, wind, humidity, pressure, and sunrise/sunset times based on the entered city. It uses the OpenWeatherMap API to fetch real-time weather data and displays it in a user-friendly interface. The site features a responsive design, dark/light mode toggle, and animated transitions for a smooth user experience. The project is built with React and Tailwind CSS, ensuring a modern look and feel.",
-      image: "https://res.cloudinary.com/duyxbtqzy/image/upload/v1740673843/portfolio/m2wnpwjfxthhmp5cr7vq.avif",
-      link: "https://simple-weather-website-eight.vercel.app/",
-      github: "https://github.com/AyanPaL7876/simple-weather-website",
-      duration:"Sept 2024 - Aug 2024",
-      techStack: ["OpenWeatherMap API", "React", "Tailwind CSS"," JavaScript"],
-      showOnProfile: true,
-      status: "Completed",
-      features: ["Responsive design", "Dark/light mode", "Animated transitions"],
-      reportLink: "https://example.com/report",
-      demoVideoLink: "https://example.com/demo-video",
-    },
-    {
-      id: "4",
-      title: "Airbnb Clone",
-      description: "A full-stack Airbnb clone with frontend and backend, featuring property listings, user authentication, booking functionality, and responsive UI.",
-      image: "https://res.cloudinary.com/duyxbtqzy/image/upload/v1740673843/portfolio/vsrr5kn1evbhckdvo91y.png",
-    //   link: "https://myportfolio.com",
-      github: "https://github.com/AyanPaL7876/",
-      duration:"July 2024 - Sept 2024",
-      techStack: ["node.js", "express.js", "MongoDb", "ejs", "JavaScript"],
-      showOnProfile: true,
-      features: ["Responsive design", "Dark/light mode", "Animated transitions"],
-    },
-    
-  ];
+export async function getWorks(): Promise<Project[]> {
+  try {
+    if (!db) {
+      throw new Error("Firebase Firestore is not initialized");
+    }
+    const projectsRef = collection(db, "works");
+
+    // Create a query to filter where showOnProfile === true
+    const q = query(projectsRef, where("showOnProfile", "==", true));
+
+    const querySnapshot = await getDocs(q);
+
+    const data: Project[] = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...(doc.data() as Omit<Project, "id">)
+    }));
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    throw error;
+  }
+}
+
+export async function getAllProjects(): Promise<Project[]> {
+  try {
+    if (!db) {
+      throw new Error("Firebase Firestore is not initialized");
+    }
+    const projectsRef = collection(db, "works");
+    const querySnapshot = await getDocs(projectsRef);
+
+    const data: Project[] = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...(doc.data() as Omit<Project, "id">)
+    }));
+    console.log(data);
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching all projects:", error);
+    throw error;
+  }
+}

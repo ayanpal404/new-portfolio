@@ -1,24 +1,30 @@
 "use client";
 
-import { projects } from "@/services/getprojects";
+
 import { FiExternalLink } from "react-icons/fi";
 import { LuGithub } from "react-icons/lu";
 import Image from "next/image";
 import React from "react";
-
-// ✅ Define the Project Type
-interface Project {
-  title: string;
-  description: string;
-  image?: string;
-  link?: string;
-  github?: string;
-  duration: string;
-  techStack: string[];
-  showOnProfile: boolean;
-}
-
+import { useData } from "@/context/DataContext";
+import { Project } from "@/utils/interface";
+import { useRouter } from "next/navigation";
 const Projects: React.FC = () => {
+  const {projects} = useData();
+  const router = useRouter();
+  //sort project base on duration last 4 characters
+  (projects ?? []).sort((a, b) => {
+    const aDuration = a.duration.slice(-4);
+    const bDuration = b.duration.slice(-4);
+    return aDuration.localeCompare(bDuration);
+  });
+
+  if (!projects || projects.length === 0) {
+    return (
+      <div className="max-w-2xl mx-auto px-6 py-8 text-center">
+        <p className="text-gray-500">No projects available at the moment.</p>
+      </div>
+    );
+  }
   // Helper function to get fallback image
   const getProjectImage = (project: Project): string => {
     if (project.image) return project.image;
@@ -120,7 +126,7 @@ const Projects: React.FC = () => {
       {/* View All Projects Link */}
       <p className="w-full text-center flex items-center justify-center pt-5">
         <a
-          href="/projects"
+          onClick={() => router.push(`/projects`)}
           rel="noopener noreferrer"
           className="flex items-center gap-2 hover:scale-105 transition-all duration-200 font-medium text-sm group/link"
         >

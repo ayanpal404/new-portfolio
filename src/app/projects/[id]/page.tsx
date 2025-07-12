@@ -1,20 +1,29 @@
 "use client";
 
 import React from "react";
-import { projects } from "@/services/getprojects";
+import { useData } from "@/context/DataContext";
 import Image from "next/image";
 import { FiExternalLink } from "react-icons/fi";
 import { LuGithub } from "react-icons/lu";
 import ReactMarkdown from "react-markdown";
 import { TbReportAnalytics } from "react-icons/tb";
 import { FaYoutube } from "react-icons/fa6";
+import LoadingComponent from "@/components/Loading";
 
 type ProjectPageProps = {
   params: { id: string };
 };
 
 export default function ProjectPage({ params }: ProjectPageProps) {
-  const project = projects.find((p) => p.id === params.id);
+  const { allProjects, loading } = useData();
+  if (loading){
+      return (
+        <div className="flex items-center justify-center min-h-screen max-w-2xl mx-auto">
+          <LoadingComponent type="dots" size="lg" />
+        </div>
+      );
+  }
+  const project = allProjects?.find((p) => p.id === params.id);
 
   const getProjectImage = () => {
     if (project?.image) return project.image;
