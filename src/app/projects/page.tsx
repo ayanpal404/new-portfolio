@@ -4,8 +4,11 @@ import React from "react";
 import { projects } from "@/services/getprojects";
 import { FiExternalLink } from "react-icons/fi";
 import { LuGithub } from "react-icons/lu";
+import { useRouter } from "next/navigation";
+
 
 type Project = {
+  id?: string;
   title: string;
   description: string;
   image?: string;
@@ -32,9 +35,16 @@ const sortedProjects = [...projects].sort((a, b) => {
 });
 
 const AllProjectsPage: React.FC = () => {
+  const router = useRouter();
   return (
     <div className="max-w-2xl mx-auto px-6 py-8">
-      <h1 className="text-2xl font-bold mb-1">All Projects</h1>
+      <button
+        onClick={() => window.history.back()}
+        className="font-semibold text-lg mb-2"
+      >
+        ← Back
+      </button>
+      <h1 className="text-3xl font-bold mb-1">All Projects</h1>
       <p className="text-gray-600 dark:text-gray-300 leading-snug mb-5">
         A collection of projects I&#39;ve built over time — including full-stack
         applications, UI demos, and real-world tools. Click to explore the code
@@ -47,7 +57,7 @@ const AllProjectsPage: React.FC = () => {
             <tr className="bg-gray-100 dark:bg-gray-800 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">
               <th className="px-4 py-2">Year</th>
               <th className="px-4 py-2">Title</th>
-              <th className="px-4 py-2">GitHub</th>
+              <th className="px-4 py-2 max-w-20 sm:max-w-10">GitHub</th>
               <th className="px-4 py-2">Live</th>
             </tr>
           </thead>
@@ -56,7 +66,10 @@ const AllProjectsPage: React.FC = () => {
               project.showOnProfile ? (
                 <tr
                   key={index}
-                  className="border-t border-gray-300 dark:border-gray-700"
+                  onClick={() => {
+                    router.push(`/projects/${project.id}`);
+                  }}
+                  className="border-t border-gray-300 dark:border-gray-700 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                 >
                   <td className="px-4 py-2">
                     {(() => {
@@ -66,13 +79,13 @@ const AllProjectsPage: React.FC = () => {
                     })()}
                   </td>
                   <td className="px-4 py-2">{project.title}</td>
-                  <td className="px-4 py-2">
+                  <td className="px-4 py-2 flex items-center justify-center">
                     {project.github && (
                       <a
                         href={project.github}
-                        target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-gray-900 dark:text-gray-100 hover:underline"
+                        onClick={(e) => e.stopPropagation()}
+                        className="z-20 inline-flex items-center gap-1 text-gray-900 dark:text-gray-100 hover:scale-125 transition-transform duration-200 hover:underline rounded-full p-1 hover:bg-gray-900 hover:text-gray-100 dark:hover:bg-gray-700"
                       >
                         <LuGithub size={16} />
                         <span className="sr-only">GitHub</span>
