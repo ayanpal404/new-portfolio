@@ -34,7 +34,7 @@ const AllProjectsPage: React.FC = () => {
   const sortedProjects = [...allProjects].sort((a, b) => {
     const aDuration = a.duration.slice(-4);
     const bDuration = b.duration.slice(-4);
-    return aDuration.localeCompare(bDuration);
+    return bDuration.localeCompare(aDuration);
   });
 
   return (
@@ -58,8 +58,8 @@ const AllProjectsPage: React.FC = () => {
             <tr className="bg-gray-100 dark:bg-gray-800 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">
               <th className="px-4 py-2">Year</th>
               <th className="px-4 py-2">Title</th>
-              <th className="px-4 py-2">GitHub</th>
-              <th className="px-4 py-2">Live</th>
+              <th className="px-4 py-2"> </th>
+              <th className="px-4 py-2"> </th>
             </tr>
           </thead>
           <tbody>
@@ -73,7 +73,7 @@ const AllProjectsPage: React.FC = () => {
                   {(() => {
                     const end = project.duration.split(" - ")[1];
                     const year = new Date(end).getFullYear();
-                    return isNaN(year) ? project.duration.slice(-4) : year;
+                    return isNaN(year) ? (project.duration.slice(-4)==="sent"?"Present":<span>{project.duration.slice(-4)}</span>) : year;
                   })()}
                 </td>
                 <td className="px-4 py-2">{project.title}</td>
@@ -97,7 +97,7 @@ const AllProjectsPage: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 hover:underline"
+                      className="z-20 inline-flex items-center gap-1 text-blue-600 dark:text-[#03C988] hover:scale-125 transition-transform duration-200 hover:underline rounded-full p-1 hover:bg-blue-600 hover:text-gray-100 dark:hover:bg-[#03C988] dark:hover:text-gray-100"
                     >
                       <FiExternalLink size={16} />
                       <span className="sr-only">Live</span>

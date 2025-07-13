@@ -15,7 +15,7 @@ const Projects: React.FC = () => {
   (projects ?? []).sort((a, b) => {
     const aDuration = a.duration.slice(-4);
     const bDuration = b.duration.slice(-4);
-    return aDuration.localeCompare(bDuration);
+    return bDuration.localeCompare(aDuration);
   });
 
   if (!projects || projects.length === 0) {
@@ -45,13 +45,15 @@ const Projects: React.FC = () => {
 
       {/* Project Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {projects.map((project: Project, index: number) => (
+        {projects.slice(0, 4).map((project: Project, index: number) => (
           <div
             key={index}
             className={`${project.showOnProfile ? "group" : "hidden"}`}
           >
             {project.showOnProfile && (
-              <div className="overflow-hidden">
+              <div 
+              onClick={() => router.push(`/projects/${project.id}`)}
+              className="overflow-hidden cursor-pointer">
                 {/* Image */}
                 <div className="relative overflow-hidden">
                   <Image
@@ -91,7 +93,7 @@ const Projects: React.FC = () => {
                   </div>
 
                   {/* Links */}
-                  <div className="flex gap-4 pt-1">
+                  <div className="flex gap-4 pt-1 ">
                     {project.github && (
                       <a
                         href={project.github}
@@ -109,7 +111,7 @@ const Projects: React.FC = () => {
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200 font-medium text-sm group/link"
+                        className="flex items-center gap-2 text-blue-600 hover:underline dark:text-[#03C988] hover:text-blue-700 dark:hover:text-[#60ffca] transition-colors duration-200 font-medium text-sm group/link"
                       >
                         <span>Live</span>
                         <FiExternalLink className="w-4 h-4 transition-transform duration-200 group-hover/link:scale-110" />
@@ -124,16 +126,18 @@ const Projects: React.FC = () => {
       </div>
 
       {/* View All Projects Link */}
+      {projects.length > 0 && (
       <p className="w-full text-center flex items-center justify-center pt-5">
         <a
           onClick={() => router.push(`/projects`)}
           rel="noopener noreferrer"
-          className="flex items-center gap-2 hover:scale-105 transition-all duration-200 font-medium text-sm group/link"
+          className="flex items-center gap-2 hover:scale-105 transition-all duration-200 font-medium text-sm group/link cursor-pointer hover:underline hover:text-blue-600 dark:hover:text-[#03C988]"
         >
           <span>View all projects</span>
           <FiExternalLink className="w-4 h-4 transition-all duration-200 group-hover/link:scale-110" />
         </a>
       </p>
+      )}
     </div>
   );
 };
