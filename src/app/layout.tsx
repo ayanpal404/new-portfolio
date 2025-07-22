@@ -15,8 +15,11 @@ const roboto = Roboto({
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'My Portfolio',
+  title: 'Ayan Pal | Portfolio',
   description: 'A portfolio website built with Next.js',
+  icons:{
+    icon : '/icon.png',
+  }
 }
 
 export default function RootLayout({
@@ -30,8 +33,8 @@ export default function RootLayout({
         <Providers>
           <DataProvider>
             {children}
-          </DataProvider>
           <ThemeToggle />
+          </DataProvider>
           <BottomAnimation />
         </Providers>
       </body>
