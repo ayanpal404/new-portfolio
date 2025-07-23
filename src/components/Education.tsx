@@ -2,10 +2,9 @@
 
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { FaAngleRight } from "react-icons/fa6";
+import { FaAngleRight, FaAnglesDown, FaAnglesUp } from "react-icons/fa6";
 import clsx from "clsx";
 import { useData } from "@/context/DataContext";
-
 
 function Education() {
   const { education } = useData();
@@ -19,7 +18,6 @@ function Education() {
     return yearB - yearA; // Sort in descending order
   });
 
-
   useEffect(() => {
     const timeout = setTimeout(() => {
       setShowImage(true);
@@ -27,14 +25,15 @@ function Education() {
     return () => clearTimeout(timeout);
   }, []);
 
-
   const toggleDescription = (index: number) => {
     setExpandedIndex((prev) => (prev === index ? null : index));
   };
 
   return (
     <div className="max-w-2xl px-4 sm:px-6 py-4 flex flex-col items-start justify-start">
-      <h1 className="font-bold mb-4 px-3 sm:px-0 text-xl sm:text-2xl">Education</h1>
+      <h1 className="font-bold mb-4 px-3 sm:px-0 text-xl sm:text-2xl">
+        Education
+      </h1>
       <div className="space-y-6 w-full">
         {(sortedEducation ?? []).map((edu, index) => {
           const isExpanded = expandedIndex === index;
@@ -42,7 +41,13 @@ function Education() {
           return (
             <div
               key={index}
-              className="flex gap-4 items-start cursor-pointer group px-1"
+              className={clsx(
+                "rounded-lg px-4 py-2 transition-all duration-300 cursor-pointer",
+                "flex gap-4 items-start cursor-pointer group px-1",
+                "hover:border-[#4ED7F1]/60 dark:hover:border-[#03C988]",
+                isExpanded &&
+                  "border-[#4ED7F1]/60 dark:border-[#03C988] shadow-md"
+              )}
               onClick={() => toggleDescription(index)}
             >
               {/* Logo or Initial */}
@@ -69,8 +74,10 @@ function Education() {
                     <h2 className="text-sm sm:text-base font-semibold flex items-center gap-1 group">
                       {edu.degree}
                       <span
-                        className={clsx("transform transition-all duration-300 translate-x-[-10px] opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
-                        , isExpanded ? "rotate-90" : "")}
+                        className={clsx(
+                          "sm:flex hidden transform transition-all duration-300 translate-x-[-10px] opacity-0 group-hover:translate-x-0 group-hover:opacity-100",
+                          isExpanded ? "rotate-90" : ""
+                        )}
                       >
                         <FaAngleRight />
                       </span>
@@ -97,6 +104,22 @@ function Education() {
                   <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                     {edu.description}
                   </p>
+                </div>
+
+                <div className="sm:hidden mt-1 text-center">
+                  <span className="text-xs text-gray-400 dark:text-gray-500">
+                    {isExpanded ? (
+                      <div className="flex items-center pt-2 justify-start gap-2">
+                        <p>Tap to collapse</p>
+                        <FaAnglesUp className="size-3 animate-bounce" />
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-start gap-2">
+                        <p>Tap to expand</p>
+                        <FaAnglesDown className="size-3 animate-bounce" />
+                      </div>
+                    )}
+                  </span>
                 </div>
               </div>
             </div>

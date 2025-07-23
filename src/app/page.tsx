@@ -20,13 +20,15 @@ export default function Home() {
   );
 
   return (
-    <main className="flex flex-col font-inter items-center justify-start min-h-screen overflow-hidden mb-32 sm:pt-0 pt-5">
+    <main className="flex flex-col font-inter items-center justify-center min-h-screen overflow-hidden mb-32 sm:pt-0 pt-5">
+    {/* <div className="flex flex-col font-inter items-center justify-start min-h-screen overflow-hidden mb-32 sm:pt-0 pt-5 max-w-2xl"> */}
       <Intro/>
       <WorkExp />
       <Education />
       <Skills />
       <Projects />
       <Contuct />
+    {/* </div> */}
     </main>
   );
 }
