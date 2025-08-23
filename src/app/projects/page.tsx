@@ -30,10 +30,10 @@ const AllProjectsPage: React.FC = () => {
     );
   }
 
-  // sort projects base on duration last 4 characters
+  // sort projects based on duration last 4 characters
   const sortedProjects = [...allProjects].sort((a, b) => {
-    const aDuration = a.duration.slice(-4);
-    const bDuration = b.duration.slice(-4);
+    const aDuration = a.duration ? a.duration.slice(-4) : "";
+    const bDuration = b.duration ? b.duration.slice(-4) : "";
     return bDuration.localeCompare(aDuration);
   });
 
@@ -71,9 +71,16 @@ const AllProjectsPage: React.FC = () => {
               >
                 <td className="px-4 py-2">
                   {(() => {
+                    if (!project.duration) return "—"; // fallback if missing
+
                     const end = project.duration.split(" - ")[1];
-                    const year = new Date(end).getFullYear();
-                    return isNaN(year) ? (project.duration.slice(-4)==="sent"?"Present":<span>{project.duration.slice(-4)}</span>) : year;
+                    const year = end ? new Date(end).getFullYear() : NaN;
+
+                    return isNaN(year)
+                      ? project.duration.slice(-4) === "sent"
+                        ? "Present"
+                        : project.duration.slice(-4)
+                      : year;
                   })()}
                 </td>
                 <td className="px-4 py-2">{project.title}</td>

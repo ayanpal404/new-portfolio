@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useData } from "@/context/DataContext";
+import { FiExternalLink } from "react-icons/fi";
 
 export default function Intro() {
   const { info, loading } = useData();
@@ -11,7 +12,7 @@ export default function Intro() {
       <div className="flex items-center max-w-2xl w-full px-6 sm:pr-10 sm:px-2">
         <div className="flex items-end gap-0 justify-between w-full flex-row-reverse px-1 sm:px-4">
           {/* Image Container - Fixed positioning */}
-          <div className="relative rounded-full overflow-hidden border-2 border-[#4ED7F1] dark:border-[#03C988] mt-5 w-24 h-24 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-48 lg:h-48">
+          <div className="relative rounded-tr-3xl rounded-bl-3xl overflow-hidden border-[2px] border-[#4ED7F1] dark:border-[#03C988] mt-5 w-24 h-24 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-48 lg:h-48">
             <Image
               src={info?.profilePic || "/default-profile.png"}
               alt="profile pic"
@@ -35,6 +36,16 @@ export default function Intro() {
       <p className="text-base sm:text-lg text-slate-800 max-w-2xl dark:text-gray-300 mt-2 px-7 sm:px-6 leading-tight sm:leading-snug ">
         {info?.intro}
       </p>
+      <p className="w-full text-center flex pt-2 pl-7 font-extrabold">
+              <a
+                onClick={() => window.open("https://drive.google.com/file/d/1e3lt8EoiNn8rJtnzZN0mDRGI8OsxzOq9/view?usp=drive_link")}
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 hover:scale-105 transition-all duration-200 font-medium text-sm group/link cursor-pointer hover:underline text-blue-600 dark:text-[#03C988]"
+              >
+                <span>View Resume</span>
+                <FiExternalLink className="w-4 h-4 transition-all duration-200 group-hover/link:scale-110" />
+              </a>
+            </p>
       <div className="max-w-2xl px-6 mt-4 sm:mt-6">
         <h1 className="text-xl sm:text-2xl font-bold text-start">About</h1>
         <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 sm:mt-2 text-justify leading-tight sm:leading-snug">

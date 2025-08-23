@@ -109,12 +109,12 @@ function WorkExp() {
                     {isExpanded ? (
                       <div className="flex items-center pt-2 justify-start gap-2">
                         <p>Tap to collapse</p>
-                        <FaAnglesUp className="size-3 animate-bounce" />
+                        <FaAnglesUp className="size-3" />
                       </div>
                     ) : (
                       <div className="flex items-center justify-start gap-2">
                         <p>Tap to expand</p>
-                        <FaAnglesDown className="size-3 animate-bounce" />
+                        <FaAnglesDown className="size-3" />
                       </div>
                     )}
                   </span>
