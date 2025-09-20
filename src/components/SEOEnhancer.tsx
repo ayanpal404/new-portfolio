@@ -3,14 +3,12 @@ import Script from 'next/script'
 interface SEOEnhancerProps {
   title?: string
   description?: string
-  keywords?: string
   canonicalUrl?: string
 }
 
 export default function SEOEnhancer({ 
   title = "Ayan Pal | Full Stack Developer West Bengal", 
   description = "Ayan Pal - Who is Ayan Pal? Full stack software developer from Karimpur, West Bengal. MCA student at Adamas University. Expert in React, Next.js, AI integration.",
-  keywords = "Ayan Pal, who is Ayan Pal, software developer West Bengal, full stack developer Karimpur, MCA Adamas University",
   canonicalUrl = "https://ayanpal.tech"
 }: SEOEnhancerProps) {
   
@@ -66,7 +64,7 @@ export default function SEOEnhancer({
   return (
     <>
       {/* Additional meta tags for better targeting */}
-      <Script id="seo-enhancer-meta" strategy="beforeInteractive">
+      <Script id="seo-enhancer-meta" strategy="afterInteractive">
         {`
           // Additional targeting for Ayan Pal searches
           if (typeof document !== 'undefined') {

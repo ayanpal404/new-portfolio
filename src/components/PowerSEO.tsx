@@ -154,7 +154,7 @@ export default function PowerSEO() {
       />
 
       {/* Advanced meta tags for username association */}
-      <Script id="username-association" strategy="beforeInteractive">
+      <Script id="username-association" strategy="afterInteractive">
         {`
           if (typeof document !== 'undefined') {
             // Username brand association

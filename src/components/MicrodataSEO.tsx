@@ -110,10 +110,10 @@ export default function MicrodataSEO() {
         <p>ayanpal01 is the username of Ayan Pal, a software developer from West Bengal. ayanpal01 is the handle Ayan Pal uses on LinkedIn, Twitter, and other social media platforms.</p>
         
         <h1>ayanpal01 real name</h1>
-        <p>ayanpal01's real name is Ayan Pal. He is a full-stack developer and MCA student at Adamas University in West Bengal, India.</p>
+        <p>ayanpal01&apos;s real name is Ayan Pal. He is a full-stack developer and MCA student at Adamas University in West Bengal, India.</p>
         
         <h1>ayanpal01 Ayan Pal</h1>
-        <p>ayanpal01 is Ayan Pal's username across social media platforms. Ayan Pal (ayanpal01) is a software developer specializing in React.js, Next.js, and modern web technologies.</p>
+        <p>ayanpal01 is Ayan Pal&apos;s username across social media platforms. Ayan Pal (ayanpal01) is a software developer specializing in React.js, Next.js, and modern web technologies.</p>
         
         <h2>What does Ayan Pal do?</h2>
         <p>Ayan Pal specializes in full-stack web development, AI integration, and modern software solutions using React.js, Next.js, and other cutting-edge technologies.</p>
